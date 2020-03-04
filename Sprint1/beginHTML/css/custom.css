@@ -1,0 +1,106 @@
+@charset "UTF-8";
+/* Add your custom CSS declarations below #0e1536 #1f5350 #4e8e6a #e2e4ed */
+
+#mainNav {
+    font-size: 32px;
+    font-family: Oswald;
+    font-weight: 400;
+    background-color: white;
+    border: 5px solid;
+    border-color: #0e1536;
+}
+
+.bg-light {
+    background-color: #e2e4ed !important;
+}
+
+a:hover{
+    color: #0e1536;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #1f5350;
+    border-color: #1f5350;
+}
+
+.primary-nav{
+    color: #0e1536;
+}
+
+.nav-pills > a {
+    font-family: oswald;
+    color: #0e1536;
+}
+
+.nav-pills .nav-link.active, .show > .nav-pills .nav-link {
+    color: #e2e4ed;
+    background-color: #1f5350;
+}
+
+.dash-nav {
+    margin-top: 150px
+}
+
+p {
+    font-family: Roboto;
+    font-size: 16px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #0e1536;
+    border-color: #0e1536;
+}
+
+.map-container{
+        overflow:hidden;
+        padding-bottom:56.25%;
+        position:relative;
+        height:0;
+        }
+
+.map-container iframe{
+        left:0;
+        top:0;
+        height:100%;
+        width:100%;
+        position:absolute;
+        }
+
+.modal-content{
+    background: linear-gradient(to bottom,rgba(255,255,255,.1) 0,rgba(0,0,0,.5) 75%,#000 100%), url(../images/fog.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+}
+
+.card {
+    background-color: #fff;
+    background-clip: border-box;
+    border: 3px solid #4e8e6a;
+    border-radius: 0.25rem;
+}
+
+label {
+    color: white
+}
+
+h2{
+    font-family: Oswald;
+    font-weight: 600;
+    font-size: 52px;
+    color: #0e1536;
+}
+
+h4{
+    font-family: Oswald;
+    font-size: 28px;
+    color: #0e1536;
+}
+
+h5 {
+    font-family: Oswald;
+    font-size:22px;
+    color:#4e8e6a; 
+}
