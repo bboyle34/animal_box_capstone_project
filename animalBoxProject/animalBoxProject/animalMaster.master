@@ -1,0 +1,107 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="animalMaster.master.cs" Inherits="animalMaster" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servitae: Preserve the living</title>
+
+<!-- Bootstrap v4 -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="screen">
+<link href="css/custom.css" rel="stylesheet" type="text/css" media="screen">
+    
+<!-- custom css -->
+<link href="css/custom.css" rel="stylesheet" type="text/css" media="screen">
+    
+<!--fontawesome-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
+<!--Google Fonts-->
+<link href="https://fonts.googleapis.com/css?family=Oswald:400,500,600,700|Roboto&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <form id="form1" runat="server">
+            <!-- Primary Navigation-->
+    <div class="row mb-5">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="index.aspx">
+            <img src="images/main_logo.png" class="img-fluid" width="40%" height="" alt="Servitae full logo"> 
+        </a>
+        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link primary-nav" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link primary-nav" href="admin.aspx">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="socialbutton primary-nav nav-link" data-toggle="modal" data-target="#bigModal"><i class="far fa-user"></i></a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="socialbutton primary-nav nav-link"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    </div>
+    
+    <!--signupModal-->
+    <div class="modal fade" id="bigModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 ">Sign in</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                
+                <div class="modal-body mx-3">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="text-center">Welcome To</h4>
+                                <img src="images/logo_white.png" alt="Main logo White" class="img-fluid">
+                                <h5 class="text-center">Preserve the Living</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form mb-5">
+                                    <input type="email" id="defaultForm-email" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
+                                </div>
+                                <div class="md-form mb-4">
+                                    <input type="password" id="defaultForm-pass" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                                </div>
+                                    <button class="btn btn-success">Login</button>
+                                    <a href="register.aspx" class="btn btn-success" role="button">New User</a>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+
+<!-- jQuery and Bootstrap links - do not delete! -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXbUaiCyS3Wr1vy9mfA9bPJKX-8zcSLrw&callback=initMap"></script>
+<!-- end of do not delete -->
+</body>
+</html>
