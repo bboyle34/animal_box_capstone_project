@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servitae: Preserve the living</title>
+
+<!-- Bootstrap v4 -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="screen">
+<link href="css/custom.css" rel="stylesheet" type="text/css" media="screen">
+    
+<!-- custom css -->
+<link href="css/custom.css" rel="stylesheet" type="text/css" media="screen">
+    
+<!--fontawesome-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
+<!--Google Fonts-->
+<link href="https://fonts.googleapis.com/css?family=Oswald:400,500,600,700|Roboto&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    
+    <!-- Primary Navigation-->
+    <div class="row mb-5">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <img src="images/main_logo.png" class="img-fluid" width="40%" height="" alt="Servitae full logo"> 
+        </a>
+        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link primary-nav" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link primary-nav" href="admin.html">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="socialbutton primary-nav nav-link" data-toggle="modal" data-target="#bigModal"><i class="far fa-user"></i></a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="socialbutton primary-nav nav-link"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    </div>
+    
+    <!--signupModal-->
+    <div class="modal fade" id="bigModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 ">Sign in</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                
+                <div class="modal-body mx-3">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="text-center">Welcome To</h4>
+                                <img src="images/logo_white.png" alt="Main logo White" class="img-fluid">
+                                <h5 class="text-center">Preserve the Living</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form mb-5">
+                                    <input type="email" id="defaultForm-email" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
+                                </div>
+                                <div class="md-form mb-4">
+                                    <input type="password" id="defaultForm-pass" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                                </div>
+                                    <button class="btn btn-success">Login</button>
+                                    <a href="register.html" class="btn btn-success" role="button">New User</a>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <!--Map and info Section-->
+    <section class="p-5 dash-nav">
+        <div class="row mt-5">
+
+              <div class="container col-md-9">
+                <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 600px">
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55551423.3191085!2d-35.59064575711649!3d26.592525873005705!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x52b30b71698e729d%3A0x131328839761a382!2sNorth%20America!5e0!3m2!1sen!2sus!4v1583158871645!5m2!1sen!2sus" width="800" height="600" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                </div>
+              </div>
+            
+                <div class="container col-md-3">
+                    <p class="text-center">Find your <strong>ARDE</strong>, and public projects on the map</p>
+                    <p><strong>About Us:</strong> Servitae is a company focused on the research of small animals using ARDE: Animal Research Developmet equipment</p>
+                    <br>
+                    <p><strong>Our Vision:</strong> To Preserve and research small animals in order to ensure their sustainability and well-being.</p>
+                    <p class="text-center"><strong>Learn More</strong> by Visiting Our About Page and <strong>Get Involved</strong> with your very own <strong>ARDE</strong> unit!</p>
+                    <div class="text-center">
+                    <a role="button" class="btn btn-success" href="#">Learn More</a>
+                    <a role="button" class="btn btn-success" href="#">Buy an ARDE unit</a>
+                    </div>
+                </div>
+                <hr class="my-5 bg-dark">
+            </div>
+    </section>
+
+
+<!-- jQuery and Bootstrap links - do not delete! -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXbUaiCyS3Wr1vy9mfA9bPJKX-8zcSLrw&callback=initMap"></script>
+<!-- end of do not delete -->
+</body>
+</html>
