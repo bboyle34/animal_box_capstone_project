@@ -33,7 +33,7 @@
                                     <p class="card-text"><strong>Common Name:</strong> Rat Boi</p>  
                                     <p class="card-text"><strong>ARDE Temperature:</strong> 78.2F</p>
                                     <p class="card-text"><strong>ARDE Location:</strong> London, UK</p>
-                                    <p class="card-text"><strong>Description:</strong> Rat Boi is the man. He protects his fellow rats, loves el Cheese and above all belives in keeping himslef clean to avoid the Corona Virus, but still enjoys an ice-cold Corona from time to time. </p>
+                                    <p class="card-text"><strong>Description:</strong> Rat Boi is the man. He protects his fellow rats, loves el Cheese and above all believes in keeping himself clean to avoid the Corona Virus, but still enjoys an ice-cold Corona from time to time. </p>
                                 </div>
                             </div>
                         </div>
