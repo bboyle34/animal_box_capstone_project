@@ -75,15 +75,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form mb-5">
-                                    <input type="email" id="defaultForm-email" class="form-control validate">
+                                    <!--<input type="email" id="defaultForm-email" class="form-control validate">-->
+                                    <asp:TextBox type="email" ID="txtUserEmail" runat="server" CssClass="form-control validate"></asp:TextBox>
                                     <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
                                 </div>
                                 <div class="md-form mb-4">
-                                    <input type="password" id="defaultForm-pass" class="form-control validate">
+                                    <!--<input type="password" id="defaultForm-pass" class="form-control validate">-->
+                                    <asp:TextBox type="password" ID="txtUserPass" runat="server" CssClass="form-control validate"></asp:TextBox>
                                     <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
                                 </div>
-                                    <button class="btn btn-success">Login</button>
+                                    <!--<button class="btn btn-success">Login</button>-->
+                                    <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-success" text="Login" OnClick="btnLogin_Click"/>
                                     <a href="register.aspx" class="btn btn-success" role="button">New User</a>
+                                    <br />
+                                    <asp:Label runat="server" ID="errorMessage"></asp:Label>
                                 </div>
                             </div>
                     </div>
