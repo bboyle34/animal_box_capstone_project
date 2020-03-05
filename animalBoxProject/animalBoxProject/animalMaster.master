@@ -85,7 +85,7 @@
                                     <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
                                 </div>
                                     <!--<button class="btn btn-success">Login</button>-->
-                                    <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-success" text="Login" OnClick="btnLogin_Click"/>
+                                    <asp:Button type="submit" ID="btnLogin" runat="server" CssClass="btn btn-success" text="Login" OnClick="btnLogin_Click"/>
                                     <a href="register.aspx" class="btn btn-success" role="button">New User</a>
                                     <br />
                                     <asp:Label runat="server" ID="errorMessage"></asp:Label>
