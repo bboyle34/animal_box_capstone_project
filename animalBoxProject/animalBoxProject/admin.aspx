@@ -6,6 +6,7 @@
     <div class="row text-center mb-5">
         <div class="col-md-12 text-center">
             <img src="images/secondary_logo.png" class="img-fluid" width="15%" alt="Secondary Logo">
+            <h1>Hello <%:Session["userEmail"]%></h1>
             <h2>Dashboard</h2>
         </div>
     </div>

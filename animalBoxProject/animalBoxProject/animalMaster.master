@@ -96,9 +96,12 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="container body-content">
         <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>
+        <footer>
+            <p><%:DateTime.Now.ToShortDateString() %> - Evergreen Consulting</p>
+        </footer>
     </div>
     </form>
 

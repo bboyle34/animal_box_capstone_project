@@ -39,17 +39,20 @@ public partial class animalMaster : System.Web.UI.MasterPage
                     if (PasswordHash.ValidatePassword(txtUserPass.Text, storedHash)) // if the entered password matches what is stored, it will show success
                     {
                         errorMessage.Text = "Success!";
+                        Session["userEmail"] = getUserFromEmail(txtUserEmail.Text.ToString());
                         Response.Redirect("admin.aspx");
                     }
                     else
                     {
                         errorMessage.Text = "Password is wrong.";
+                        failedLogin("Password is wrong.");
                     }
                 }
             }
             else // if the username doesn't exist, it will show failure
             {
                 errorMessage.Text = "Login failed.";
+                failedLogin("Login failed.");
             }
 
             sc.Close();
@@ -57,6 +60,28 @@ public partial class animalMaster : System.Web.UI.MasterPage
         catch (Exception g)
         {
             errorMessage.Text = g.ToString();
+            failedLogin(g.ToString());
         }
+    }
+    protected String getUserFromEmail(String email)
+    {
+        String answer = "";
+        char[] charArray = email.ToCharArray();
+        for (int i = 0; i < email.Length; i++)
+        {
+            if (charArray[i].ToString().Equals("@", StringComparison.OrdinalIgnoreCase))
+            {
+                break;
+            }
+            else
+            {
+                answer += charArray[i];
+            }
+        }
+        return answer;
+    }
+    protected void failedLogin(String error)
+    {
+
     }
 }
