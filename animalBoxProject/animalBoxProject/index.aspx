@@ -33,19 +33,20 @@
                 //var marker = new google.maps.Marker({ position: jmu, map: map, title: 'Project Two' });
                 //var marker = new google.maps.Marker({ position: bridge, map: map, title: 'Project Three' });
 
-                var markerMessages = ['ARDE BOX #234', 'ARDE BOX #98', 'ARDE BOX #543']
-                var latSpan = .1;
-                var lngSpan = .1;
-                for (var i = 0; i < markerMessages.length; i++) {
-                    var marker = new google.maps.Marker({
-                        position: {
-                            lat: 38.4495688 + i,
-                            lng: -78.8689156 + i
-                        },
-                        map: map
-                    });
-                    attachMessage(marker, markerMessages[i]);
-                }
+                //var markerMessages = ['ARDE BOX #234', 'ARDE BOX #98', 'ARDE BOX #543']
+                //var latSpan = .1;
+                //var lngSpan = .1;
+                //for (var i = 0; i < markerMessages.length; ++i) {
+                //    var marker = new google.maps.Marker({
+                //        position: {
+                //            lat: 38.4495688 + i,
+                //            lng: -78.8689156 + i
+                //        },
+                //        map: map
+                //    });
+                //    attachMessage(marker, markerMessages[i]);
+                //}
+
                 //map.addListener('center_changed', function () {
                 //    // 3 seconds after the center of the map has changed, pan back to the
                 //    // marker.
@@ -58,15 +59,74 @@
                 //    map.setZoom(15);
                 //    map.setCenter(marker.getPosition());
                 //});
+                var bounds = {
+                    north: -25.363882,
+                    south: -31.203405,
+                    east: 131.044922,
+                    west: 125.244141
+                };
+                var latCoords = [
+                    38.4495688,
+                    38.4092923,
+                    38.3782182
+                ];
+                var longCoords = [
+                    -78.8689156,
+                    -78.753912,
+                    -78.9693624
+                ];
+                var sites = [
+                    'http://www.gmail.com',
+                    'http://www.jmu.edu',
+                    'http://www.aws.amazon.com'
+                ];
+
+                // Display the area between the location southWest and northEast.
+                //map.fitBounds(bounds);
+
+                // Add 5 markers to map at random locations.
+                // For each of these markers, give them a title with their index, and when
+                // they are clicked they should open an infowindow with text from a secret
+                // message.
+                var messages = ['ARDE BOX #234', 'ARDE BOX #98', 'ARDE BOX #543'];
+                var lngSpan = bounds.east - bounds.west;
+                var latSpan = bounds.north - bounds.south;
+                for (var i = 0; i < messages.length; ++i) {
+                    var marker = new google.maps.Marker({
+                        position: {
+                            lat: latCoords[i],
+                            lng: longCoords[i]
+                        },
+                        map: map,
+                        url: sites[i]
+                    });
+                    attachMessage(marker, messages[i], sites[i]);
+                }
             }
-            function attachMessage(marker, message) {
-                var infoWindow = new google.maps.infoWindow({
+
+            // Attaches an info window to a marker with the provided message. When the
+            // marker is clicked, the info window will open with the secret message.
+            function attachMessage(marker, message, site) {
+                var infowindow = new google.maps.InfoWindow({
                     content: message
                 });
-                marker.addListenter('click', function () {
-                    infoWindow.open(marker.get('map'), marker);
+
+                marker.addListener('click', function () {
+                    infowindow.open(marker.get('map'), marker);
+                    //window.open = marker.url;
+                });
+                google.maps.event.addListener(marker, "dblclick", function (e) {
+                    window.open(marker.url);
                 });
             }
+            //function attachMessage(marker, message) {
+            //    var infowindow = new google.maps.InfoWindow({
+            //        content: message
+            //    });
+            //    marker.addListenter('click', function () {
+            //        infowindow.open(marker.get('map'), marker);
+            //    });
+            //}
         </script>
     </section>
 </asp:Content>
