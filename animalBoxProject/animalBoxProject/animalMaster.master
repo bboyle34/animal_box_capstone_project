@@ -89,6 +89,10 @@
                                     <a href="register.aspx" class="btn btn-success" role="button">New User</a>
                                     <br />
                                     <asp:Label runat="server" ID="errorMessage"></asp:Label>
+                                <!--</div>
+                                <div class="md-form mb-5">-->
+                                    <!--<asp:Label id="lblForgotPassword" runat="server" href="#passwordRecovery.aspx" CssClass="stretched-link" Text="Forgot Password?"></asp:Label>-->
+                                    <a href="passwordRecovery.aspx" class="stretched-link">Forgot Password?</a>
                                 </div>
                             </div>
                     </div>
@@ -112,5 +116,10 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHkpoW9YtISab6-BysValisDAd1oI78ek&callback=initMap"></script>
     <!-- ^This is Brendan's MAP API. This one works.-->
 <!-- end of do not delete -->
+    <script type="text/javascript">
+        function openModal() {
+            $('bigModal').modal('show');
+        }
+    </script>
 </body>
 </html>

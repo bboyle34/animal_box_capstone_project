@@ -12,7 +12,18 @@ public partial class animalMaster : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        //this is code that tried to keep the Modal open when incorrect user info was presented
+        //if (!IsPostBack)
+        //{
+        //    Session["correctLogin"] = "true";
+        //}
+        //else
+        //{
+        //    if (Session["correctLogin"].ToString().Equals("false", StringComparison.OrdinalIgnoreCase))
+        //    {
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+        //    }
+        //}
     }
 
     protected void btnLogin_Click(object sender, EventArgs e)
@@ -44,14 +55,14 @@ public partial class animalMaster : System.Web.UI.MasterPage
                     }
                     else
                     {
-                        errorMessage.Text = "Password is wrong.";
+                        errorMessage.Text = "Invalid Password";
                         failedLogin("Password is wrong.");
                     }
                 }
             }
             else // if the username doesn't exist, it will show failure
             {
-                errorMessage.Text = "Login failed.";
+                errorMessage.Text = "Invalid User";
                 failedLogin("Login failed.");
             }
 
@@ -82,6 +93,7 @@ public partial class animalMaster : System.Web.UI.MasterPage
     }
     protected void failedLogin(String error)
     {
-
+        //Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        //Session["correctLogin"] = "false";
     }
 }
