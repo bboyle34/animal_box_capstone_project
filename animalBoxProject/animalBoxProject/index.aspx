@@ -5,6 +5,7 @@
     <section class="p-5 dash-nav">
         <div class="row mt-5">
             <!-- github training -->
+                <!-- second training -->
 
               <div class="container col-md-9">
                 <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 600px">
