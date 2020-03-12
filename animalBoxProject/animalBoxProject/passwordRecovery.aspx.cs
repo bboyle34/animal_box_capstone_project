@@ -14,7 +14,8 @@ public partial class passwordRecovery : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        errorMessage.Text = "" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "";
+        //errorMessage.Text = "" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "";
+        //errorMessage.Text = generateRandomHash();
     }
 
     protected void btnRecoverPass_Clicked(object sender, EventArgs e)
@@ -46,7 +47,7 @@ public partial class passwordRecovery : System.Web.UI.Page
         {
             //client.U
             //for (int i = 0; i < )
-            string dateStamp = "" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "";
+            string foobar = generateRandomHash(userID);
             string[] userCreds = new string[2];
             userCreds[0] = getEmail(userID);
             userCreds[1] = getPassword(userID);
@@ -54,7 +55,7 @@ public partial class passwordRecovery : System.Web.UI.Page
             mm.Subject = "Servitate Password Recovery";
             //mm.Body = string.Format("Hi " + userCreds[0] + ",<br /><br />Your password is " + userCreds[1] + ".<br /><br />Thank you");
             //http://localhost:60998/passwordRecovery.aspx
-            mm.Body = string.Format("Hi " + userCreds[0] + ",<br /><br />Please click <a href=\"" + "http://localhost:60998/passwordReset.aspx?variable=" + userID + "&dateVar=" + dateStamp + "\">here</a>." +
+            mm.Body = string.Format("Hi " + userCreds[0] + ",<br /><br />Please click <a href=\"" + "http://localhost:60998/passwordReset.aspx?variable=" + userID + "&hash=" + foobar + "\">here</a>." +
                 "to reset your Password.<br /><br />If you did not request a new password, please ignore this email.<br /><br /> Thank you,<br /><br /> Servitae, by Evergreen Consulting");
             mm.IsBodyHtml = true;
 
@@ -105,5 +106,44 @@ public partial class passwordRecovery : System.Web.UI.Page
         sc.Close();
 
         return password;
+    }
+    protected string generateRandomHash(int userID)
+    {
+        //const string characters = "0123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ!@#$%^&*()";
+        //string answer = "";
+        //var rand = new Random();
+        //for (int i = 0; i < characters.Length; i++)
+        //{
+        //    answer += characters[Math.Floor(rand.Next() * characters.Length)];
+        //}
+        //return answer;
+        Guid obj = Guid.NewGuid();
+        String answer = obj.ToString();
+        addHashToDB(answer, userID);
+        return answer;
+    }
+    protected void addHashToDB(String hash, int userID)
+    {
+        string dateStamp = "" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "";
+        try
+        {
+            System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
+            sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
+
+            string insert = "insert into recovery values(@userID, @randomHash, @dateStamp)";
+            System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(insert, sc);
+            cmd.Parameters.AddWithValue("@userID", userID);
+            cmd.Parameters.AddWithValue("@randomHash", hash);
+            cmd.Parameters.AddWithValue("@dateStamp", dateStamp);
+
+            sc.Open();
+            cmd.ExecuteNonQuery();
+            sc.Close();
+            errorMessage.Text = "recovery insert successful";
+        }
+        catch (Exception g)
+        {
+            errorMessage.Text = g.ToString();
+        }
     }
 }

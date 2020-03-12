@@ -6,6 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
+using System.Data;
 
 public partial class passwordReset : System.Web.UI.Page
 {
@@ -13,15 +15,95 @@ public partial class passwordReset : System.Web.UI.Page
     {
         int userID = int.Parse(Request.QueryString["variable"]);
         user.Text = getUserFromEmail(getEmail(userID));
-        double dateStamp = double.Parse(Request.QueryString["dateVar"]);
+        String foobar = Convert.ToString(Request.QueryString["hash"]);
         String nowDate = "" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "";
-        if (dateStamp + 10 < double.Parse(nowDate))
+
+        if (!checkLinkValidity(userID, foobar, nowDate))
         {
             txtConfirmNewPassword.Enabled = false;
             txtNewPassword.Enabled = false;
             btnNewPassword.Enabled = false;
-            errorMessage.Text = "Link has expired.";
+            //errorMessage.Text = "Link has expired.";
         }
+    }
+    protected Boolean checkLinkValidity(int userID, String foobar, String nowDate)
+    {
+        Boolean answer = false;
+        String randomHash = "";
+        String dateStamp = "";
+        //dateStamp + 10 < double.Parse(nowDate)
+        System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
+        sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
+
+        String getHash = "select * from recovery where userID = @userID;";
+        System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(getHash, sc);
+        cmd.Parameters.AddWithValue("@userID", userID);
+        //String getDate = "select dateStamp from recovery where userID = @userID";
+        //System.Data.SqlClient.SqlCommand cmd2 = new System.Data.SqlClient.SqlCommand(getDate, sc);
+        //cmd2.Parameters.AddWithValue("@userID", userID);
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        da.Fill(dt);
+        sc.Open();
+        foreach(DataRow dr in dt.Rows)
+        {
+            answer = HashAndDateCheck(foobar, nowDate, dr["randomHash"].ToString(), dr["dateStamp"].ToString());
+            if (answer)
+            {
+                break;
+            }
+        }
+        //using (SqlDataReader rdr = cmd.ExecuteReader())
+        //{
+        //    while (rdr.Read() && !answer)
+        //    {
+        //        randomHash = rdr[1].ToString();
+        //        dateStamp = rdr[2].ToString();
+        //        if (foobar.Equals(randomHash, StringComparison.Ordinal))
+        //        {
+        //            if (double.Parse(dateStamp) + 10 < double.Parse(nowDate))
+        //            {
+        //                errorMessage.Text = "Link has valid hash and datestamp";
+        //                answer = true;
+        //                break;
+        //            }
+        //            else
+        //            {
+        //                errorMessage.Text = "Link has expired";
+        //            }
+        //        }
+        //        else
+        //        {
+        //            errorMessage.Text = "Hash is invalid";
+        //        }
+        //    }
+        //}
+        sc.Close();
+        return answer;
+    }
+    protected Boolean HashAndDateCheck(String foobar, String nowDate, String randomHash, String dateStamp)
+    {
+        Boolean answer = false;
+        int count = 0;
+        //time.Text = "" + double.Parse(dateStamp) + 10 + " vs " + double.Parse(nowDate) + "";
+        if (foobar.Equals(randomHash, StringComparison.Ordinal) && !answer)
+        {
+            count++;
+            if (double.Parse(dateStamp) + 10 > double.Parse(nowDate))
+            {
+                errorMessage.Text = "Link has valid hash and datestamp";
+                answer = true;
+            }
+            else
+            {
+                errorMessage.Text = "Link has expired";
+            }
+        }
+        else if (!answer && count > 0)
+        {
+            errorMessage.Text = "Hash is invalid";
+        }
+        return answer;
     }
     protected String getUserFromEmail(String email)
     {
@@ -44,63 +126,69 @@ public partial class passwordReset : System.Web.UI.Page
     protected void btnNewPass_Clicked(object sender, EventArgs e)
     {
         int userID = int.Parse(Request.QueryString["variable"]);
-        if (isPasswordValid())
+        if (isPasswordValid() && isPasswordMatch())
         {
-            if (!txtNewPassword.Text.ToString().Equals(txtConfirmNewPassword.Text.ToString(), StringComparison.OrdinalIgnoreCase))
+            try
             {
-                //errorMessage.Text = "Please completely fill out the form";
-                passwordMatch.Text = "Passwords do not match.";
+                System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
+                sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
+
+                sc.Open();
+                System.Data.SqlClient.SqlCommand insert = new System.Data.SqlClient.SqlCommand();
+                insert.Connection = sc;
+                //insert.CommandText = "update Pass values(@Email, @Address, @Address2, @City, @State, @Zip)";
+                //insert.Parameters.AddWithValue("@Email", txtEmail.Text);
+                //insert.Parameters.AddWithValue("@Address", txtAddress.Text);
+                //if (txtAddress2.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
+                //{
+                //    insert.Parameters.AddWithValue("@Address2", DBNull.Value);
+                //}
+                //else
+                //{
+                //    insert.Parameters.AddWithValue("Address2", txtAddress2);
+                //}
+                //insert.Parameters.AddWithValue("@City", txtCity.Text);
+                //if (txtState.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
+                //{
+                //    insert.Parameters.AddWithValue("@State", DBNull.Value);
+                //}
+                //else
+                //{
+                //    insert.Parameters.AddWithValue("@State", txtState.Text);
+                //}
+                //insert.Parameters.AddWithValue("@Zip", txtZip.Text);
+                //insert.ExecuteNonQuery();
+
+                System.Data.SqlClient.SqlCommand setPass = new System.Data.SqlClient.SqlCommand();
+                setPass.Connection = sc;
+                setPass.CommandText = "update Pass set PasswordHash = @Password where UserID = @UserID";
+                setPass.Parameters.AddWithValue("@Password", PasswordHash.HashPassword(txtNewPassword.Text));
+                setPass.Parameters.AddWithValue("@UserID", userID);
+                setPass.ExecuteNonQuery();
+
+                sc.Close();
+                //errorMessage.Text = "Commit Successful";
+                Response.Redirect("index.aspx");
             }
-            else
+            catch (Exception g)
             {
-                try
-                {
-                    System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
-                    sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
-
-                    sc.Open();
-                    System.Data.SqlClient.SqlCommand insert = new System.Data.SqlClient.SqlCommand();
-                    insert.Connection = sc;
-                    //insert.CommandText = "update Pass values(@Email, @Address, @Address2, @City, @State, @Zip)";
-                    //insert.Parameters.AddWithValue("@Email", txtEmail.Text);
-                    //insert.Parameters.AddWithValue("@Address", txtAddress.Text);
-                    //if (txtAddress2.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
-                    //{
-                    //    insert.Parameters.AddWithValue("@Address2", DBNull.Value);
-                    //}
-                    //else
-                    //{
-                    //    insert.Parameters.AddWithValue("Address2", txtAddress2);
-                    //}
-                    //insert.Parameters.AddWithValue("@City", txtCity.Text);
-                    //if (txtState.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
-                    //{
-                    //    insert.Parameters.AddWithValue("@State", DBNull.Value);
-                    //}
-                    //else
-                    //{
-                    //    insert.Parameters.AddWithValue("@State", txtState.Text);
-                    //}
-                    //insert.Parameters.AddWithValue("@Zip", txtZip.Text);
-                    //insert.ExecuteNonQuery();
-
-                    System.Data.SqlClient.SqlCommand setPass = new System.Data.SqlClient.SqlCommand();
-                    setPass.Connection = sc;
-                    setPass.CommandText = "update Pass set PasswordHash = @Password where UserID = @UserID";
-                    setPass.Parameters.AddWithValue("@Password", PasswordHash.HashPassword(txtNewPassword.Text));
-                    setPass.Parameters.AddWithValue("@UserID", userID);
-                    setPass.ExecuteNonQuery();
-
-                    sc.Close();
-                    //errorMessage.Text = "Commit Successful";
-                    Response.Redirect("index.aspx");
-                }
-                catch (Exception g)
-                {
-                    passwordMatch.Text = g.ToString();
-                }
+                passwordMatch.Text = g.ToString();
             }
         }
+    }
+    protected Boolean isPasswordMatch()
+    {
+        Boolean answer = false;
+        if (!txtNewPassword.Text.ToString().Equals(txtConfirmNewPassword.Text.ToString(), StringComparison.OrdinalIgnoreCase))
+        {
+            //errorMessage.Text = "Please completely fill out the form";
+            passwordMatch.Text = "Passwords do not match.";
+        }
+        else
+        {
+            answer = true;
+        }
+        return answer;
     }
     protected Boolean isPasswordValid()
     {
@@ -151,6 +239,18 @@ public partial class passwordReset : System.Web.UI.Page
         if(isPasswordValid())
         {
             passwordReqs.Text = "Password Meets all requirements.";
+        }
+    }
+
+    protected void confirmNewPassword_Changed(object sender, EventArgs e)
+    {
+        if(isPasswordMatch())
+        {
+            passwordMatch.Text = "Passwords match";
+        }
+        else
+        {
+            passwordMatch.Text = "Passwords do not match";
         }
     }
 }

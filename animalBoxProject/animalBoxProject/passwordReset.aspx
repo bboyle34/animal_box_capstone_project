@@ -31,7 +31,7 @@
                     Confirm New Password:
                 </div>
                 <div class="col-md-4 mb-1">
-                    <asp:TextBox type="password" id="txtConfirmNewPassword" runat="server" CssClass="form-control validate" required AutoPostBack="true"></asp:TextBox>
+                    <asp:TextBox type="password" id="txtConfirmNewPassword" runat="server" CssClass="form-control validate" required AutoPostBack="true" OnTextChanged="confirmNewPassword_Changed"></asp:TextBox>
                 </div>
             </div>
             <div class="row">
@@ -50,6 +50,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
+                    <asp:Label runat="server" ID="time"></asp:Label>
                 </div>
                 <div class="col-md-4 mb-3">
                     <asp:Label runat="server" ID="errorMessage"></asp:Label>
