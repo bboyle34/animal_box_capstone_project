@@ -52,7 +52,7 @@ public partial class passwordRecovery : System.Web.UI.Page
             userCreds[0] = getEmail(userID);
             userCreds[1] = getPassword(userID);
             MailMessage mm = new MailMessage("sender@gmail.com", userCreds[0]);
-            mm.Subject = "Servitate Password Recovery";
+            mm.Subject = "Servitae Password Recovery";
             //mm.Body = string.Format("Hi " + userCreds[0] + ",<br /><br />Your password is " + userCreds[1] + ".<br /><br />Thank you");
             //http://localhost:60998/passwordRecovery.aspx
             mm.Body = string.Format("Hi " + userCreds[0] + ",<br /><br />Please click <a href=\"" + "http://localhost:60998/passwordReset.aspx?variable=" + userID + "&hash=" + foobar + "\">here</a>." +
@@ -124,7 +124,7 @@ public partial class passwordRecovery : System.Web.UI.Page
     }
     protected void addHashToDB(String hash, int userID)
     {
-        string dateStamp = "" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "";
+        string dateStamp = correctDate();
         try
         {
             System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
@@ -145,5 +145,43 @@ public partial class passwordRecovery : System.Web.UI.Page
         {
             errorMessage.Text = g.ToString();
         }
+    }
+    protected String correctDate()
+    {
+        String answer = "";
+        answer += DateTime.Now.Year;
+        if (int.Parse(DateTime.Now.Month.ToString()) < 10)
+        {
+            answer += "0" + DateTime.Now.Month.ToString();
+        }
+        else
+        {
+            answer += DateTime.Now.Month.ToString();
+        }
+        if (int.Parse(DateTime.Now.Day.ToString()) < 10)
+        {
+            answer += "0" + DateTime.Now.Day.ToString();
+        }
+        else
+        {
+            answer += DateTime.Now.Day.ToString();
+        }
+        if (int.Parse(DateTime.Now.Hour.ToString()) < 10)
+        {
+            answer += "0" + DateTime.Now.Hour.ToString();
+        }
+        else
+        {
+            answer += DateTime.Now.Hour.ToString();
+        }
+        if (int.Parse(DateTime.Now.Minute.ToString()) < 10)
+        {
+            answer += "0" + double.Parse(DateTime.Now.Minute.ToString()) + 10;
+        }
+        else
+        {
+            answer += double.Parse(DateTime.Now.Minute.ToString()) + 10;
+        }
+        return answer;
     }
 }

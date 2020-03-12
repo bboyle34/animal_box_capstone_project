@@ -16,7 +16,7 @@ public partial class passwordReset : System.Web.UI.Page
         int userID = int.Parse(Request.QueryString["variable"]);
         user.Text = getUserFromEmail(getEmail(userID));
         String foobar = Convert.ToString(Request.QueryString["hash"]);
-        String nowDate = "" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "";
+        String nowDate = correctDate();
 
         if (!checkLinkValidity(userID, foobar, nowDate))
         {
@@ -25,6 +25,44 @@ public partial class passwordReset : System.Web.UI.Page
             btnNewPassword.Enabled = false;
             //errorMessage.Text = "Link has expired.";
         }
+    }
+    protected String correctDate()
+    {
+        String answer = "";
+        answer += DateTime.Now.Year;
+        if (int.Parse(DateTime.Now.Month.ToString()) < 10)
+        {
+            answer += "0" + DateTime.Now.Month.ToString();
+        }
+        else
+        {
+            answer += DateTime.Now.Month.ToString();
+        }
+        if (int.Parse(DateTime.Now.Day.ToString()) < 10)
+        {
+            answer += "0" + DateTime.Now.Day.ToString();
+        }
+        else
+        {
+            answer += DateTime.Now.Day.ToString();
+        }
+        if (int.Parse(DateTime.Now.Hour.ToString()) < 10)
+        {
+            answer += "0" + DateTime.Now.Hour.ToString();
+        }
+        else
+        {
+            answer += DateTime.Now.Hour.ToString();
+        }
+        if (int.Parse(DateTime.Now.Minute.ToString()) < 10)
+        {
+            answer += "0" + DateTime.Now.Minute.ToString();
+        }
+        else
+        {
+            answer += DateTime.Now.Minute.ToString();
+        }
+        return answer;
     }
     protected Boolean checkLinkValidity(int userID, String foobar, String nowDate)
     {
@@ -85,13 +123,13 @@ public partial class passwordReset : System.Web.UI.Page
     {
         Boolean answer = false;
         int count = 0;
-        //time.Text = "" + double.Parse(dateStamp) + 10 + " vs " + double.Parse(nowDate) + "";
+        //time.Text = "" + double.Parse(dateStamp) + " vs " + double.Parse(nowDate) + "";
         if (foobar.Equals(randomHash, StringComparison.Ordinal) && !answer)
         {
             count++;
-            if (double.Parse(dateStamp) + 10 > double.Parse(nowDate))
+            if (double.Parse(dateStamp) > double.Parse(nowDate))
             {
-                errorMessage.Text = "Link has valid hash and datestamp";
+                //errorMessage.Text = "Link has valid hash and datestamp";
                 answer = true;
             }
             else
