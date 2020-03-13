@@ -1,4 +1,5 @@
 --Create a database named "PBKDF2"
+DROP TABLE IF EXISTS recovery;
 DROP TABLE IF EXISTS Pass;
 DROP TABLE IF EXISTS Person;
 
@@ -17,3 +18,10 @@ UserID int FOREIGN KEY references Person(UserID) NOT NULL,
 Email nvarchar(30) NOT NULL,
 PasswordHash nvarchar(256) NOT NULL,
 PRIMARY KEY (UserID));
+
+CREATE TABLE recovery (
+UserID int FOREIGN KEY references Pass(UserID) NOT NULL,
+randomHash nvarchar(50) NOT NULL,
+dateStamp nvarchar(20) NOT NULL,
+Primary Key (UserID, randomHash)
+);
