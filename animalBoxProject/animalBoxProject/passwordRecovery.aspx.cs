@@ -176,11 +176,11 @@ public partial class passwordRecovery : System.Web.UI.Page
         }
         if (int.Parse(DateTime.Now.Minute.ToString()) < 10)
         {
-            answer += "0" + double.Parse(DateTime.Now.Minute.ToString()) + 10;
+            answer += "0" + DateTime.Now.Minute.ToString();
         }
         else
         {
-            answer += double.Parse(DateTime.Now.Minute.ToString()) + 10;
+            answer += DateTime.Now.Minute.ToString();
         }
         return answer;
     }

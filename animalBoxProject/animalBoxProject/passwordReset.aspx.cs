@@ -18,6 +18,7 @@ public partial class passwordReset : System.Web.UI.Page
         String foobar = Convert.ToString(Request.QueryString["hash"]);
         String nowDate = correctDate();
 
+
         if (!checkLinkValidity(userID, foobar, nowDate))
         {
             txtConfirmNewPassword.Enabled = false;
@@ -25,6 +26,11 @@ public partial class passwordReset : System.Web.UI.Page
             btnNewPassword.Enabled = false;
             //errorMessage.Text = "Link has expired.";
         }
+    }
+    protected int getID()
+    {
+        int userID = int.Parse(Request.QueryString["variable"]);
+        return userID;
     }
     protected String correctDate()
     {
@@ -127,7 +133,7 @@ public partial class passwordReset : System.Web.UI.Page
         if (foobar.Equals(randomHash, StringComparison.Ordinal) && !answer)
         {
             count++;
-            if (double.Parse(dateStamp) > double.Parse(nowDate))
+            if (double.Parse(dateStamp) < (double.Parse(nowDate) + 10))
             {
                 //errorMessage.Text = "Link has valid hash and datestamp";
                 answer = true;
@@ -167,51 +173,54 @@ public partial class passwordReset : System.Web.UI.Page
         int userID = int.Parse(Request.QueryString["variable"]);
         if (isPasswordValid() && isPasswordMatch())
         {
-            try
+            if (checkLastPassword())
             {
-                System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
-                sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
+                try
+                {
+                    System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
+                    sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
 
-                sc.Open();
-                System.Data.SqlClient.SqlCommand insert = new System.Data.SqlClient.SqlCommand();
-                insert.Connection = sc;
-                //insert.CommandText = "update Pass values(@Email, @Address, @Address2, @City, @State, @Zip)";
-                //insert.Parameters.AddWithValue("@Email", txtEmail.Text);
-                //insert.Parameters.AddWithValue("@Address", txtAddress.Text);
-                //if (txtAddress2.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
-                //{
-                //    insert.Parameters.AddWithValue("@Address2", DBNull.Value);
-                //}
-                //else
-                //{
-                //    insert.Parameters.AddWithValue("Address2", txtAddress2);
-                //}
-                //insert.Parameters.AddWithValue("@City", txtCity.Text);
-                //if (txtState.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
-                //{
-                //    insert.Parameters.AddWithValue("@State", DBNull.Value);
-                //}
-                //else
-                //{
-                //    insert.Parameters.AddWithValue("@State", txtState.Text);
-                //}
-                //insert.Parameters.AddWithValue("@Zip", txtZip.Text);
-                //insert.ExecuteNonQuery();
+                    sc.Open();
+                    System.Data.SqlClient.SqlCommand insert = new System.Data.SqlClient.SqlCommand();
+                    insert.Connection = sc;
+                    //insert.CommandText = "update Pass values(@Email, @Address, @Address2, @City, @State, @Zip)";
+                    //insert.Parameters.AddWithValue("@Email", txtEmail.Text);
+                    //insert.Parameters.AddWithValue("@Address", txtAddress.Text);
+                    //if (txtAddress2.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
+                    //{
+                    //    insert.Parameters.AddWithValue("@Address2", DBNull.Value);
+                    //}
+                    //else
+                    //{
+                    //    insert.Parameters.AddWithValue("Address2", txtAddress2);
+                    //}
+                    //insert.Parameters.AddWithValue("@City", txtCity.Text);
+                    //if (txtState.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
+                    //{
+                    //    insert.Parameters.AddWithValue("@State", DBNull.Value);
+                    //}
+                    //else
+                    //{
+                    //    insert.Parameters.AddWithValue("@State", txtState.Text);
+                    //}
+                    //insert.Parameters.AddWithValue("@Zip", txtZip.Text);
+                    //insert.ExecuteNonQuery();
 
-                System.Data.SqlClient.SqlCommand setPass = new System.Data.SqlClient.SqlCommand();
-                setPass.Connection = sc;
-                setPass.CommandText = "update Pass set PasswordHash = @Password where UserID = @UserID";
-                setPass.Parameters.AddWithValue("@Password", PasswordHash.HashPassword(txtNewPassword.Text));
-                setPass.Parameters.AddWithValue("@UserID", userID);
-                setPass.ExecuteNonQuery();
+                    System.Data.SqlClient.SqlCommand setPass = new System.Data.SqlClient.SqlCommand();
+                    setPass.Connection = sc;
+                    setPass.CommandText = "update Pass set PasswordHash = @Password where UserID = @UserID";
+                    setPass.Parameters.AddWithValue("@Password", PasswordHash.HashPassword(txtNewPassword.Text));
+                    setPass.Parameters.AddWithValue("@UserID", userID);
+                    setPass.ExecuteNonQuery();
 
-                sc.Close();
-                //errorMessage.Text = "Commit Successful";
-                Response.Redirect("index.aspx");
-            }
-            catch (Exception g)
-            {
-                passwordMatch.Text = g.ToString();
+                    sc.Close();
+                    //errorMessage.Text = "Commit Successful";
+                    Response.Redirect("index.aspx");
+                }
+                catch (Exception g)
+                {
+                    passwordMatch.Text = g.ToString();
+                }
             }
         }
     }
@@ -271,6 +280,35 @@ public partial class passwordReset : System.Web.UI.Page
         sc.Close();
 
         return email;
+    }
+    protected Boolean checkLastPassword()
+    {
+        Boolean answer = true;
+        //String newPasswordHash = PasswordHash.HashPassword(txtConfirmNewPassword.Text.ToString());
+        //String oldPasswordHash = "";
+        //int userID = getID();
+        //System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
+        //sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
+
+        //string getHash = "select PasswordHash from Pass where userID = @userID;";
+        //System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(getHash, sc);
+        //cmd.Parameters.AddWithValue("@userID", ID);
+
+        //sc.Open();
+        //oldPasswordHash = Convert.ToString(cmd.ExecuteScalar());
+        //sc.Close();
+
+        //if (newPasswordHash.Equals(oldPasswordHash.ToString(), StringComparison.Ordinal))
+        //{
+        //    answer = false;
+        //    errorMessage.Text = "New Password cannot be the same as the Old Password.";
+        //}
+        //else
+        //{
+        //    answer = true;
+        //}
+
+        return answer;
     }
 
     protected void txtNewPassword_Changed(object sender, EventArgs e)
