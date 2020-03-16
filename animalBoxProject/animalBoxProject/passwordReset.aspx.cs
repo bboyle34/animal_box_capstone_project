@@ -163,6 +163,7 @@ public partial class passwordReset : System.Web.UI.Page
 
     protected void btnNewPass_Clicked(object sender, EventArgs e)
     {
+        // add in functionality that checks if this password is the same as the last one
         int userID = int.Parse(Request.QueryString["variable"]);
         if (isPasswordValid() && isPasswordMatch())
         {
