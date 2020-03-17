@@ -16,6 +16,7 @@ public partial class passwordRecovery : System.Web.UI.Page
     {
         //errorMessage.Text = "" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "";
         //errorMessage.Text = generateRandomHash();
+        errorMessage.Text = correctDate();
     }
 
     protected void btnRecoverPass_Clicked(object sender, EventArgs e)
@@ -176,11 +177,11 @@ public partial class passwordRecovery : System.Web.UI.Page
         }
         if (int.Parse(DateTime.Now.Minute.ToString()) < 10)
         {
-            answer += "0" + DateTime.Now.Minute.ToString();
+            answer += int.Parse(DateTime.Now.Minute.ToString()) + 10;
         }
         else
         {
-            answer += DateTime.Now.Minute.ToString();
+            answer += int.Parse(DateTime.Now.Minute.ToString()) + 10;
         }
         return answer;
     }

@@ -73,8 +73,8 @@ public partial class passwordReset : System.Web.UI.Page
     protected Boolean checkLinkValidity(int userID, String foobar, String nowDate)
     {
         Boolean answer = false;
-        String randomHash = "";
-        String dateStamp = "";
+        //String randomHash = "";
+        //String dateStamp = "";
         //dateStamp + 10 < double.Parse(nowDate)
         System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
         sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
@@ -133,7 +133,7 @@ public partial class passwordReset : System.Web.UI.Page
         if (foobar.Equals(randomHash, StringComparison.Ordinal) && !answer)
         {
             count++;
-            if (double.Parse(dateStamp) < (double.Parse(nowDate) + 10))
+            if (double.Parse(dateStamp) > (double.Parse(nowDate)))
             {
                 //errorMessage.Text = "Link has valid hash and datestamp";
                 answer = true;
