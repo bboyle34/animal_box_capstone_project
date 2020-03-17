@@ -285,7 +285,7 @@ public partial class passwordReset : System.Web.UI.Page
     {
         Boolean answer = true;
         //String newPasswordHash = PasswordHash.HashPassword(txtConfirmNewPassword.Text.ToString());
-        //String oldPasswordHash = "";
+        //int oldPasswordHash = 0;
         //int userID = getID();
         //System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
         //sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
@@ -295,7 +295,7 @@ public partial class passwordReset : System.Web.UI.Page
         //cmd.Parameters.AddWithValue("@userID", ID);
 
         //sc.Open();
-        //oldPasswordHash = Convert.ToString(cmd.ExecuteScalar());
+        //oldPasswordHash = Convert.ToInt32(cmd.ExecuteScalar());
         //sc.Close();
 
         //if (newPasswordHash.Equals(oldPasswordHash.ToString(), StringComparison.Ordinal))

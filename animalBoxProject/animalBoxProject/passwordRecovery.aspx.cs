@@ -16,7 +16,7 @@ public partial class passwordRecovery : System.Web.UI.Page
     {
         //errorMessage.Text = "" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "";
         //errorMessage.Text = generateRandomHash();
-        errorMessage.Text = correctDate();
+        //errorMessage.Text = correctDate();
     }
 
     protected void btnRecoverPass_Clicked(object sender, EventArgs e)
@@ -41,8 +41,8 @@ public partial class passwordRecovery : System.Web.UI.Page
         }
         catch(Exception g)
         {
-            errorMessage.ForeColor = Color.Red;
-            errorMessage.Text = "Please provide a valid email";
+            errorMessage.ForeColor = Color.Green;
+            errorMessage.Text = "Reset Password Link has been sent to this email address.";
         }
         if (validEmail)
         {
@@ -56,8 +56,14 @@ public partial class passwordRecovery : System.Web.UI.Page
             mm.Subject = "Servitae Password Recovery";
             //mm.Body = string.Format("Hi " + userCreds[0] + ",<br /><br />Your password is " + userCreds[1] + ".<br /><br />Thank you");
             //http://localhost:60998/passwordRecovery.aspx
-            mm.Body = string.Format("Hi " + userCreds[0] + ",<br /><br />Please click <a href=\"" + "http://localhost:60998/passwordReset.aspx?variable=" + userID + "&hash=" + foobar + "\">here</a>." +
-                "to reset your Password.<br /><br />If you did not request a new password, please ignore this email.<br /><br /> Thank you,<br /><br /> Servitae, by Evergreen Consulting");
+            mm.Body = string.Format("Greetings " + userCreds[0] + " from Servitae by Evergreen Consulting,<br /><br />We received a request to reset the pasword for the ARDE account associated with this e-mail address.<br /> " +
+                "Please click <a href=\"" + "http://localhost:60998/passwordReset.aspx?variable=" + userID + "&hash=" + foobar + "\">here</a> to reset your password using our secure server.<br /><br />" +
+                "If clicking the link doesn't work, you can copy and paste the link into your web browser's address bar. You will be able to create a new password for your ARDE account after clicking the link above.<br /><br />" +
+                "If you did not request to have your password reset, you can safely ignore this email. Rest assured your ARDE account is safe." +
+                "<br />Servitae will never email you and ask you to disclose or verify your password, credit card, or banking account number.<br /><br />" +
+                "Thank you for using Servitae.<br /><br />" +
+                "Sincerely,<br />" +
+                "The Evergreen Consulting Service Team");
             mm.IsBodyHtml = true;
 
             SmtpClient smtp = new SmtpClient();
@@ -71,7 +77,7 @@ public partial class passwordRecovery : System.Web.UI.Page
             smtp.Port = 587;
             smtp.Send(mm);
             errorMessage.ForeColor = Color.Green;
-            errorMessage.Text = "Password has been sent to your email address.";
+            errorMessage.Text = "Reset Password Link has been sent to your email address.";
             btnRecoverPass.Enabled = false;
         }
     }
