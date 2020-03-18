@@ -90,7 +90,11 @@
                 // For each of these markers, give them a title with their index, and when
                 // they are clicked they should open an infowindow with text from a secret
                 // message.
-                var messages = ['ARDE BOX #234', 'ARDE BOX #98', 'ARDE BOX #543'];
+                var messages = [
+                    'ARDE BOX #234',
+                    'ARDE BOX #98',
+                    'ARDE BOX #543'
+                ];
                 var lngSpan = bounds.east - bounds.west;
                 var latSpan = bounds.north - bounds.south;
                 for (var i = 0; i < messages.length; ++i) {

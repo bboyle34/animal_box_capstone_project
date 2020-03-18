@@ -18,7 +18,6 @@ public partial class passwordReset : System.Web.UI.Page
         String foobar = Convert.ToString(Request.QueryString["hash"]);
         String nowDate = correctDate();
 
-
         if (!checkLinkValidity(userID, foobar, nowDate))
         {
             txtConfirmNewPassword.Enabled = false;
