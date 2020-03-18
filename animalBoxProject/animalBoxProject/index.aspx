@@ -61,27 +61,41 @@
                 //    map.setZoom(15);
                 //    map.setCenter(marker.getPosition());
                 //});
-                var bounds = {
-                    north: -25.363882,
-                    south: -31.203405,
-                    east: 131.044922,
-                    west: 125.244141
-                };
-                var latCoords = [
-                    38.4495688,
-                    38.4092923,
-                    38.3782182
-                ];
-                var longCoords = [
-                    -78.8689156,
-                    -78.753912,
-                    -78.9693624
-                ];
-                var sites = [
-                    'http://www.gmail.com',
-                    'http://www.jmu.edu',
-                    'http://www.aws.amazon.com'
-                ];
+                //var bounds = {
+                //    north: -25.363882,
+                //    south: -31.203405,
+                //    east: 131.044922,
+                //    west: 125.244141
+                //};
+
+                //var latCoords = [
+                //    38.4495688,
+                //    38.4092923,
+                //    38.3782182
+                //];
+                //var longCoords = [
+                //    -78.8689156,
+                //    -78.753912,
+                //    -78.9693624
+                //];
+                //var sites = [];
+                //function () {
+                //    $.ajax({
+                //        type: "Post",
+                //        url: "index.aspx/getUrl",
+                //        contentType: "application/json; charset=utf-8",
+                //        dataType: "json",
+                //        success: function (response) {
+                //            var sites = response.d;
+                //            alert(sites.length);
+                //        },
+
+                //        failure: function (msg) {
+                //            alert(msg);
+                //        }
+                //    });
+                //}
+
 
                 // Display the area between the location southWest and northEast.
                 //map.fitBounds(bounds);
@@ -90,18 +104,18 @@
                 // For each of these markers, give them a title with their index, and when
                 // they are clicked they should open an infowindow with text from a secret
                 // message.
-                var messages = [
-                    'ARDE BOX #234',
-                    'ARDE BOX #98',
-                    'ARDE BOX #543'
-                ];
-                var lngSpan = bounds.east - bounds.west;
-                var latSpan = bounds.north - bounds.south;
-                for (var i = 0; i < messages.length; ++i) {
+                //var messages = [
+                //    'ARDE BOX #234',
+                //    'ARDE BOX #98',
+                //    'ARDE BOX #543'
+                //];
+                //var lngSpan = bounds.east - bounds.west;
+                //var latSpan = bounds.north - bounds.south;
+                for (var i = 0; i < sites.length; ++i) {
                     var marker = new google.maps.Marker({
                         position: {
-                            lat: latCoords[i],
-                            lng: longCoords[i]
+                            lat: latitudes[i],
+                            lng: longitudes[i]
                         },
                         map: map,
                         url: sites[i]

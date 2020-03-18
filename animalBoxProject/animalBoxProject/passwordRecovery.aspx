@@ -6,7 +6,7 @@
             <div class="col-md-12 mb-5">
             </div>
         </div>
-    </div>
+    </div> 
     <div class="jumbotron d-flex align-items-center">
         <div class="container">
             <div class="row">
