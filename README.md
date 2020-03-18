@@ -21,6 +21,22 @@ Map API needs to be working. want to make it so If i have a database of coordina
 <br />
 More Pages -- shopping, differentiate user sign in (admin, user, team member, product owner)
 
+Forgotten password functionality (can't have previous password) 
+<br />
 
+Use Case & ERD 
+<br />
+
+DDL
+<br />
+
+C# class files
+<br />
+
+Permissions for all users
+<br />
+
+Get the SSL certificate 
+<br />
 
 
