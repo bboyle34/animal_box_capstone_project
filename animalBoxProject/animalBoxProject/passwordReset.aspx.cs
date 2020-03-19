@@ -284,17 +284,17 @@ public partial class passwordReset : System.Web.UI.Page
     {
         Boolean answer = true;
         //String newPasswordHash = PasswordHash.HashPassword(txtConfirmNewPassword.Text.ToString());
-        //int oldPasswordHash = 0;
+        //String oldPasswordHash = "";
         //int userID = getID();
         //System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
         //sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
 
         //string getHash = "select PasswordHash from Pass where userID = @userID;";
         //System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(getHash, sc);
-        //cmd.Parameters.AddWithValue("@userID", ID);
+        //cmd.Parameters.AddWithValue("@userID", userID);
 
         //sc.Open();
-        //oldPasswordHash = Convert.ToInt32(cmd.ExecuteScalar());
+        //oldPasswordHash = Convert.ToString(cmd.ExecuteScalar());
         //sc.Close();
 
         //if (newPasswordHash.Equals(oldPasswordHash.ToString(), StringComparison.Ordinal))
