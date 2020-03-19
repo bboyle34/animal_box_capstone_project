@@ -208,7 +208,7 @@ public partial class passwordReset : System.Web.UI.Page
                     System.Data.SqlClient.SqlCommand setPass = new System.Data.SqlClient.SqlCommand();
                     setPass.Connection = sc;
                     setPass.CommandText = "update Pass set PasswordHash = @Password where UserID = @UserID";
-                    setPass.Parameters.AddWithValue("@Password", PasswordHash.HashPassword(txtNewPassword.Text));
+                    setPass.Parameters.AddWithValue("@Password", PasswordHash.HashPassword(HttpUtility.HtmlEncode(txtNewPassword.Text)));
                     setPass.Parameters.AddWithValue("@UserID", userID);
                     setPass.ExecuteNonQuery();
 
@@ -283,29 +283,29 @@ public partial class passwordReset : System.Web.UI.Page
     protected Boolean checkLastPassword()
     {
         Boolean answer = true;
-        //String newPasswordHash = PasswordHash.HashPassword(txtConfirmNewPassword.Text.ToString());
-        //String oldPasswordHash = "";
-        //int userID = getID();
-        //System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
-        //sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
+        String newPasswordHash = txtConfirmNewPassword.Text.ToString();
+        String oldPasswordHash = "";
+        int userID = getID();
+        System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
+        sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
 
-        //string getHash = "select PasswordHash from Pass where userID = @userID;";
-        //System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(getHash, sc);
-        //cmd.Parameters.AddWithValue("@userID", userID);
+        string getHash = "select PasswordHash from Pass where userID = @userID;";
+        System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(getHash, sc);
+        cmd.Parameters.AddWithValue("@userID", userID);
 
-        //sc.Open();
-        //oldPasswordHash = Convert.ToString(cmd.ExecuteScalar());
-        //sc.Close();
+        sc.Open();
+        oldPasswordHash = Convert.ToString(cmd.ExecuteScalar());
+        sc.Close();
 
-        //if (newPasswordHash.Equals(oldPasswordHash.ToString(), StringComparison.Ordinal))
-        //{
-        //    answer = false;
-        //    errorMessage.Text = "New Password cannot be the same as the Old Password.";
-        //}
-        //else
-        //{
-        //    answer = true;
-        //}
+        if (PasswordHash.ValidatePassword(newPasswordHash, oldPasswordHash))
+        {
+            answer = false;
+            errorMessage.Text = "New Password cannot be the same as the Old Password.";
+        }
+        else
+        {
+            answer = true;
+        }
 
         return answer;
     }

@@ -38,33 +38,33 @@ public partial class register : System.Web.UI.Page
                     System.Data.SqlClient.SqlCommand insert = new System.Data.SqlClient.SqlCommand();
                     insert.Connection = sc;
                     insert.CommandText = "insert into Person values(@Email, @Address, @Address2, @City, @State, @Zip)";
-                    insert.Parameters.AddWithValue("@Email", txtEmail.Text);
-                    insert.Parameters.AddWithValue("@Address", txtAddress.Text);
+                    insert.Parameters.AddWithValue("@Email", HttpUtility.HtmlEncode(txtEmail.Text));
+                    insert.Parameters.AddWithValue("@Address", HttpUtility.HtmlEncode(txtAddress.Text));
                     if (txtAddress2.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
                     {
                         insert.Parameters.AddWithValue("@Address2", DBNull.Value);
                     }
                     else
                     {
-                        insert.Parameters.AddWithValue("Address2", txtAddress2);
+                        insert.Parameters.AddWithValue("Address2", HttpUtility.HtmlEncode(txtAddress2));
                     }
-                    insert.Parameters.AddWithValue("@City", txtCity.Text);
+                    insert.Parameters.AddWithValue("@City", HttpUtility.HtmlEncode(txtCity.Text));
                     if (txtState.Text.ToString().Equals("", StringComparison.OrdinalIgnoreCase))
                     {
                         insert.Parameters.AddWithValue("@State", DBNull.Value);
                     }
                     else
                     {
-                        insert.Parameters.AddWithValue("@State", txtState.Text);
+                        insert.Parameters.AddWithValue("@State", HttpUtility.HtmlEncode(txtState.Text));
                     }
-                    insert.Parameters.AddWithValue("@Zip", txtZip.Text);
+                    insert.Parameters.AddWithValue("@Zip", HttpUtility.HtmlEncode(txtZip.Text));
                     insert.ExecuteNonQuery();
 
                     System.Data.SqlClient.SqlCommand setPass = new System.Data.SqlClient.SqlCommand();
                     setPass.Connection = sc;
                     setPass.CommandText = "insert into Pass values((select max(userid) from person), @Email, @Password)";
-                    setPass.Parameters.AddWithValue("@Email", txtEmail.Text);
-                    setPass.Parameters.AddWithValue("@Password", PasswordHash.HashPassword(txtPassword.Text));
+                    setPass.Parameters.AddWithValue("@Email", HttpUtility.HtmlEncode(txtEmail.Text));
+                    setPass.Parameters.AddWithValue("@Password", PasswordHash.HashPassword(HttpUtility.HtmlEncode(txtPassword.Text)));
                     setPass.ExecuteNonQuery();
 
                     sc.Close();
