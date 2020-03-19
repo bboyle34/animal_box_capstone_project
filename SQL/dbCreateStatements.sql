@@ -17,6 +17,32 @@
 -- STORED PROCEDURES --
 -- ######################### --
 
+    -- funciton that duplicates this database into a backup databse, executable by the admin only
+    CREATE PROCEDURE DatabaseBackup
+    AS
+        USE master
+        DROP DATABASE IF EXISTS BackupServitae;
+        CREATE DATABASE BackupServitae;
+        USE BackupServitae;
+        SELECT * into BackupServitae.dbo.Date from ServitaeARDE.dbo.Date;
+        SELECT * into BackupServitae.dbo.Location from ServitaeARDE.dbo.Location;
+        SELECT * into BackupServitae.dbo.User from ServitaeARDE.dbo.User;
+        SELECT * into BackupServitae.dbo.Password from ServitaeARDE.dbo.Password;
+        SELECT * into BackupServitae.dbo.RecoveryPass from ServitaeARDE.dbo.RecoveryPass;
+        SELECT * into BackupServitae.dbo.TeamMember from ServitaeARDE.dbo.TeamMember;
+        SELECT * into BackupServitae.dbo.ProjectControls from ServitaeARDE.dbo.ProjectControls;
+        SELECT * into BackupServitae.dbo.ProjectLeader from ServitaeARDE.dbo.ProjectLeader;
+        SELECT * into BackupServitae.dbo.Authenticator from ServitaeARDE.dbo.Authenticator;
+        SELECT * into BackupServitae.dbo.ARDE from ServitaeARDE.dbo.ARDE;
+        SELECT * into BackupServitae.dbo.Project from ServitaeARDE.dbo.Project;
+        SELECT * into BackupServitae.dbo.Observation from ServitaeARDE.dbo.Observation;    
+    GO;
+
+-- ######################### --
+-- Triggers --
+-- ######################### --
+
+    -- trigger that clears the recovery passwords after 10 days, this will help with storage costs
 
 -- ######################### --
 -- DROP TABLES -- 
