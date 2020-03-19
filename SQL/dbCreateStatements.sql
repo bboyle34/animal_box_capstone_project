@@ -25,7 +25,7 @@
     DROP TABLE IF EXISTS Observation;
     DROP TABLE IF EXISTS Project;
     DROP TABLE IF EXISTS ARDE;
-    DROP TABLE IF EXISTS SystemAdmin;
+    DROP TABLE IF EXISTS Authenticator;
     DROP TABLE IF EXISTS Researcher;
     DROP TABLE IF EXISTS ProjectLeader;
     DROP TABLE IF EXISTS ProjectControls;
@@ -125,7 +125,14 @@
         LastUdpdatedBy int references User(UserID)
     );
     
-    -- Create System Admin
+    -- Create Authenticator
+    CREATE TABLE Authenticator(
+        AuthenticatorID int PRIMARY KEY identity(1, 1),
+        UserID int references User(UserID) NOT NULL,
+        VerificationCredentials nvarchar(256),
+        LastUpdated int references Date(DateKey),
+        LastUdpdatedBy int references User(UserID)
+    );
     
     -- Create ARDE
     CREATE TABLE ARDE(
