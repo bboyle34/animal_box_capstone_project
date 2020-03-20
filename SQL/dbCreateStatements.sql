@@ -1,7 +1,7 @@
 -- ######################### --
 -- START OF DATABASE --
 -- ######################### --
-	
+    
     USE master;
 
     DROP DATABASE IF EXISTS ServitaeARDE;
@@ -17,25 +17,27 @@
 -- STORED PROCEDURES --
 -- ######################### --
 
-    -- funciton that duplicates this database into a backup databse, executable by the admin only
+-- function that duplicates this database into a backup database, executable by the admin only
+
     CREATE PROCEDURE DatabaseBackup
     AS
         USE master
         DROP DATABASE IF EXISTS BackupServitae;
         CREATE DATABASE BackupServitae;
         USE BackupServitae;
-        SELECT * into BackupServitae.dbo.Date from ServitaeARDE.dbo.Date;
-        SELECT * into BackupServitae.dbo.Location from ServitaeARDE.dbo.Location;
-        SELECT * into BackupServitae.dbo.User from ServitaeARDE.dbo.User;
-        SELECT * into BackupServitae.dbo.Password from ServitaeARDE.dbo.Password;
-        SELECT * into BackupServitae.dbo.RecoveryPass from ServitaeARDE.dbo.RecoveryPass;
-        SELECT * into BackupServitae.dbo.TeamMember from ServitaeARDE.dbo.TeamMember;
-        SELECT * into BackupServitae.dbo.ProjectControls from ServitaeARDE.dbo.ProjectControls;
-        SELECT * into BackupServitae.dbo.ProjectLeader from ServitaeARDE.dbo.ProjectLeader;
-        SELECT * into BackupServitae.dbo.Authenticator from ServitaeARDE.dbo.Authenticator;
-        SELECT * into BackupServitae.dbo.ARDE from ServitaeARDE.dbo.ARDE;
-        SELECT * into BackupServitae.dbo.Project from ServitaeARDE.dbo.Project;
-        SELECT * into BackupServitae.dbo.Observation from ServitaeARDE.dbo.Observation;    
+        SELECT * into BackupServitae.dbo.Date FROM ServitaeARDE.dbo.Date;
+        SELECT * into BackupServitae.dbo.Location FROM ServitaeARDE.dbo.Location;
+        SELECT * into BackupServitae.dbo.LatLng FROM SertvitaeARDE.dbo.LatLng;
+        SELECT * into BackupServitae.dbo.User FROM ServitaeARDE.dbo.User;
+        SELECT * into BackupServitae.dbo.Password FROM ServitaeARDE.dbo.Password;
+        SELECT * into BackupServitae.dbo.RecoveryPass FROM ServitaeARDE.dbo.RecoveryPass;
+        SELECT * into BackupServitae.dbo.TeamMember FROM ServitaeARDE.dbo.TeamMember;
+        SELECT * into BackupServitae.dbo.ProjectControls FROM ServitaeARDE.dbo.ProjectControls;
+        SELECT * into BackupServitae.dbo.ProjectLeader FROM ServitaeARDE.dbo.ProjectLeader;
+        SELECT * into BackupServitae.dbo.Authenticator FROM ServitaeARDE.dbo.Authenticator;
+        SELECT * into BackupServitae.dbo.ARDE FROM ServitaeARDE.dbo.ARDE;
+        SELECT * into BackupServitae.dbo.Project FROM ServitaeARDE.dbo.Project;
+        SELECT * into BackupServitae.dbo.Observation FROM ServitaeARDE.dbo.Observation;    
     GO;
 
 -- ######################### --
@@ -43,6 +45,9 @@
 -- ######################### --
 
     -- trigger that clears the recovery passwords after 10 days, this will help with storage costs
+-- trigger that executes every morning, looks into RecoverPass table for a User with more than 10 records and deletes 80% of the least most recent records      
+
+
 
 -- ######################### --
 -- DROP TABLES -- 
@@ -59,165 +64,168 @@
     DROP TABLE IF EXISTS RecoveryPass;
     DROP TABLE IF EXISTS Password;
     DROP TABLE IF EXISTS User;
+    DROP TABLE IF EXISTS LatLng;
     DROP TABLE IF EXISTS Location;
     DROP TABLE IF EXISTS Date;
+
 
 -- ######################### --
 -- CREATE TABLES --
 -- ######################### --
 
-    -- Create Date
+
+ -- Create Date
     CREATE TABLE Date(
-        DateKey int PRIMARY KEY identity(1, 1),
-        FullDateAlternateKey nvarchar(30),
-        DateStamp datetime,
-        DayOfMonth nvarchar(30),
-        MonthOfYear nvarchar(30),
-        CalendarYear nvarchar(30),
-        HourOfDay nvarchar(30),
-        MinuteOfHour nvarchar(30),
-        SeconfOfMinute nvarchar(30),
+        DateKey int PRIMARY KEY identity(1, 1) NOT NULL,
+        DateStamp datetime NOT NULL,
         LastUpdated int references Date(DateKey) NOT NULL,
-        -- LastUpdatedBy nvarchar(30)        
+        LastUpdatedBy nvarchar(30) NOT NULL        
     );
-    
-        -- Create Location
+
+    -- Create Location
     CREATE TABLE Location(
-        LocationID int PRIMARY KEY identity(1, 1),
-        StreetAddress nvarchar(30),
-        City nvarchar(30),
-        State nvarchar(30),
-        Country nvarchar(30),
-        Zip nvarchar(30),
-        Region nvarchar(30),
-        Latitude nvarchar(30),
-        Longitude nvarchar(30),
-        LastUpdated int references Date(DateKey),
-        -- LastUpdatedBy int references User(UserID)
+        LocationID int PRIMARY KEY identity(1, 1) NOT NULL,
+        StreetAddress nvarchar(50) NOT NULL,
+        City nvarchar(30) NOT NULL,
+        State nvarchar(2),
+        Country nvarchar(3) NOT NULL,
+        PostalCode nvarchar(10) NOT NULL,
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUpdatedBy nvarchar(30) NOT NULL
     );
     
     -- Create User
     CREATE TABLE User(
-        UserID int PRIMARY KEY identity(1, 1),
-        FirstName nvarchar(30), 
+        UserID int PRIMARY KEY identity(1, 1) NOT NULL,
+        FirstName nvarchar(30) NOT NULL, 
         MiddleName nvarchar(30),
-        LastName nvarchar(30),
-        Phone nvarchar(30),
-        Email nvarchar(30),
-        AddressID int references Location(LocationID),
-        Address2ID int references Location(LocationID),\
-        ActiveUser Boolean,
-        LastUpdated int references Date(DateKey),
-        LastUdpdatedBy int references User(UserID)
+        LastName nvarchar(30) NOT NULL,
+        Phone nvarchar(15),
+        Email nvarchar(30) NOT NULL,
+        AddressID int references Location(LocationID) NOT NULL,
+        Address2ID int references Location(LocationID),
+        ActiveUser Boolean NOT NULL,
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUdpdatedBy int references User(UserID) NOT NULL
+    );
+    
+    -- Create LatLng
+    CREATE TABLE LatLng(
+        LatLngID int PRIMARY KEY identity(1, 1) NOT NULL,
+        Latitude nvarchar(30) NOT NULL,
+        Longitude nvarchar(30) NOT NULL,
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUpdatedBy int references User(UserID) NOT NULL
     );
     
     -- Create Password
     CREATE TABLE Password(
         UserID int PRIMARY KEY references User(UserID) NOT NULL,
-        Email nvarchar(30),
-        PasswordHash nvarchar(256),
-        LastUpdated int references Date(DateKey),
-        LastUdpdatedBy int references User(UserID) 
+        Email nvarchar(30) NOT NULL,
+        PasswordHash nvarchar(256) NOT NULL,
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUdpdatedBy int references User(UserID) NOT NULL 
     );
     
     -- Create Recovery Password
     CREATE TABLE RecoveryPass(
         UserID int references User(UserID) NOT NULL,
-        RandomHash nvarchar(256),
-        DateStamp nvarchar(30),
-        LastUpdated int references Date(DateKey),
-        LastUdpdatedBy int references User(UserID),
+        RandomHash nvarchar(256) NOT NULL,
+        DateStamp nvarchar(30) NOT NULL,
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUdpdatedBy int references User(UserID) NOT NULL,
         CONSTRAINT PRIMARY KEY (UserID, RandomHash)
     );
     
     -- Create Team Member
     CREATE TABLE TeamMember(
-        TeamMemberID int PRIMARY KEY identity(1, 1),
+        TeamMemberID int PRIMARY KEY identity(1, 1) NOT NULL,
         UserID int references User(UserID) NOT NULL,
         TemporaryAccessKey nvarchar(256) NOT NULL,
-        LastUpdated int references Date(DateKey),
-        LastUdpdatedBy int references User(UserID)
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUdpdatedBy int references User(UserID) NOT NULL
     );
     
     -- Create Project Controls
     
     -- Create Project Leader
     CREATE TABLE ProjectLeader(
-        ProjectLeadID int PRIMARY KEY identity(1, 1),
+        ProjectLeadID int PRIMARY KEY identity(1, 1) NOT NULL,
         UserID int references User(UserID) NOT NULL,
         BoxAccessKey nvarchar(256) NOT NULL,
-        ProjectControlsID int references ProjectControl(ProjectControlsID),
-        LastUpdated int references Date(DateKey),
-        LastUdpdatedBy int references User(UserID)
+        ProjectControlsID int references ProjectControl(ProjectControlsID) NOT NULL,
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUdpdatedBy int references User(UserID) NOT NULL
     );
     
     -- Create Authenticator
     CREATE TABLE Authenticator(
-        AuthenticatorID int PRIMARY KEY identity(1, 1),
+        AuthenticatorID int PRIMARY KEY identity(1, 1) NOT NULL,
         UserID int references User(UserID) NOT NULL,
-        VerificationCredentials nvarchar(256),
-        LastUpdated int references Date(DateKey),
-        LastUdpdatedBy int references User(UserID)
+        VerificationCredentials nvarchar(256) NOT NULL,
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUdpdatedBy int references User(UserID) NOT NULL
     );
     
     -- Create ARDE
     CREATE TABLE ARDE(
-        BoxSerialID int PRIMARY KEY identity(1, 1),
+        BoxSerialID int PRIMARY KEY identity(1, 1) NOT NULL,
         UserID int references User(UserID) NOT NULL,
-        DeviceNickname nvarchar(30),
+        DeviceNickname nvarchar(30) NOT NULL,
         BatteryStatus nvarchar(30),
         HasAnimal Boolean,
         IsActiveBox Boolean,
-        Bluetooth nvarchar(30),
-        Wifi nvarchar(30),
+        Bluetooth Boolean,
+        Wifi Boolean,
         Mode nvarchar(30),
         IntervalDelay nvarchar(30),
-        NumberImages nvarchar(30),
-        WeightUNit nvarchar(30),
-        Media nvarchar(30)
-        PurchaseDate int references Date(DateKey),
+        NumberImages int,
+        WeightUnit nvarchar(10),
+        Media nvarchar(256),
+        PurchaseDate int references Date(DateKey) NOT NULL,
         PurchaseHistory nvarchar(256),
-        LocationID int references Location(LocationID),
+        LatLngID int references LatLng(LatLngID),
         LastUpdated int references Date(DateKey),
         LastUdpdatedBy int references User(UserID)
     );
     
     -- Create Project
     CREATE TABLE Project(
-        ProjectID int PRIMARY KEY identity(1, 1),
+        ProjectID int PRIMARY KEY identity(1, 1) NOT NULL,
         BoxSerialID int references ARDE(BoxSerialID) NOT NULL,
         UserID int references User(UserID) NOT NULL,
         ProjectLeader int references ProjectLeader(ProjectLeaderID) NOT NULL,
-        ProjectTitle nvarchar(30),
-        ProjectUserLimit int,
-        ProjectDescription nvarchar(256),
-        LastUpdated int references Date(DateKey),
-        LastUdpdatedBy int references User(UserID)
+        ProjectTitle nvarchar(30) NOT NULL,
+        ProjectUserLimit int DEFAULT 1,
+        ProjectDescription nvarchar(256) NOT NULL,
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUdpdatedBy int references User(UserID) NOT NULL
     );
     
     -- Create Observation
     CREATE TABLE Observation(
-        RecordNum int PRIMARY KEY identity(1, 1),
+        RecordNum int PRIMARY KEY identity(1, 1) NOT NULL,
         ProjectID int references Project(ProjectID) NOT NULL,
         UserID int references User(UserID) NOT NULL,
         BoxSerialID int references ARDE(BoxSerialID) NOT NULL,
         Genus nvarchar(30),
         Species nvarchar(30),
         CommonName nvarchar(30),
-        Size decimal,
-        Weight decimal,
-        Temperature decimal,
-        Humidity decimal,
-        Media nvarchar(30),
-        ValidateStatus Boolean,
-        DateTimeArrival int references Date(DateKey),
-        DateTimeRelease int references Date(DateKey),
-        LocationID int references Location(LocationID),
-        UploadDateTime int references Date(DateKey),
-        LastUpdated int references Date(DateKey),
-        LastUdpdatedBy int references User(UserID)
+        Size double,
+        Weight double,
+        Temperature double,
+        Humidity double,
+        Media nvarchar(256) NOT NULL,
+-- indicates whether an authenticator has validated the data yet
+-- FALSE if they have not, TRUE if they have
+        ValidateStatus Boolean DEFAULT False,
+        DateTimeArrival int references Date(DateKey) NOT NULL,
+        DateTimeRelease int references Date(DateKey) NOT NULL,
+        LocationID int references Location(LocationID) NOT NULL,
+        UploadDateTime int references Date(DateKey) NOT NULL,
+        LastUpdated int references Date(DateKey) NOT NULL,
+        LastUdpdatedBy int references User(UserID) NOT NULL
     );
-
     
 
 -- ######################### --
