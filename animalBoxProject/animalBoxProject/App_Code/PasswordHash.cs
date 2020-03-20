@@ -7,6 +7,8 @@ using System.Security.Cryptography;
 /// <summary>
 /// Summary description for PasswordHash
 /// </summary>
+
+///
 public class PasswordHash
 {
     public const int SaltByteSize = 24; // standard, secure size of salts
