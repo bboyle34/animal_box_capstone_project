@@ -54,16 +54,18 @@ public partial class passwordRecovery : System.Web.UI.Page
             userCreds[1] = getPassword(userID);
             MailMessage mm = new MailMessage("sender@gmail.com", userCreds[0]);
             mm.Subject = "Servitae Password Recovery";
+            String link = "http://localhost:60998/passwordReset.aspx?variable=" + userID + "&hash=" + foobar + "></a><br />";
             //mm.Body = string.Format("Hi " + userCreds[0] + ",<br /><br />Your password is " + userCreds[1] + ".<br /><br />Thank you");
             //http://localhost:60998/passwordRecovery.aspx
             mm.Body = string.Format("Greetings " + userCreds[0] + " from Servitae by Evergreen Consulting,<br /><br />We received a request to reset the pasword for the ARDE account associated with this e-mail address.<br /> " +
-                "Please click <a href=\"" + "http://localhost:60998/passwordReset.aspx?variable=" + userID + "&hash=" + foobar + "\">here</a> to reset your password using our secure server.<br /><br />" +
+                "Please click the link below to reset your password using our secure server.<br />" +
+                link +
                 "If clicking the link doesn't work, you can copy and paste the link into your web browser's address bar. You will be able to create a new password for your ARDE account after clicking the link above.<br /><br />" +
                 "If you did not request to have your password reset, you can safely ignore this email. Rest assured your ARDE account is safe." +
                 "<br />Servitae will never email you and ask you to disclose or verify your password, credit card, or banking account number.<br /><br />" +
                 "Thank you for using Servitae.<br /><br />" +
                 "Sincerely,<br />" +
-                "The Evergreen Consulting Service Team");
+                "Servitae Service Team");
             mm.IsBodyHtml = true;
 
             SmtpClient smtp = new SmtpClient();
