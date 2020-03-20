@@ -23,7 +23,7 @@ public partial class passwordRecovery : System.Web.UI.Page
     {
         Boolean validEmail = false;
         int userID = 0;
-        String userEmail = txtUserEmail.Text.ToString();
+        String userEmail = HttpUtility.HtmlEncode(txtUserEmail.Text.ToString());
         System.Data.SqlClient.SqlConnection sc = new System.Data.SqlClient.SqlConnection();
         sc.ConnectionString = ConfigurationManager.ConnectionStrings["myRDSinstance"].ConnectionString;
         string checkForEmail = "select UserID from person where email like @email;";
