@@ -72,8 +72,8 @@ public partial class passwordRecovery : System.Web.UI.Page
             smtp.Host = "smtp.gmail.com";
             smtp.EnableSsl = true;
             NetworkCredential NetworkCred = new NetworkCredential();
-            NetworkCred.UserName = "servitaePassRecovery@gmail.com";
-            NetworkCred.Password = "arde321!";
+            NetworkCred.UserName = "email_here";
+            NetworkCred.Password = "password_here";
             smtp.UseDefaultCredentials = true;
             smtp.Credentials = NetworkCred;
             smtp.Port = 587;
